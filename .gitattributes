@@ -1,8 +1,2 @@
 # Auto detect text files and perform LF normalization
 * text=auto
-cd C:\Users\aghar\Documents\HARMINSONDALVAREZ_AA2_EV01
-git init
-git add .
-git commit -m "Primer commit"
-git remote add origin https://github.com/GHarminsond/otto_sistema_web.git
-git push -u origin main
