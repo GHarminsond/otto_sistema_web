@@ -1,0 +1,35 @@
+# Query: 
+# ContextLines: 1
+
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+    <display-name>GA7-220501096-AA2-EV02</display-name>
+    
+    <!-- Servlets -->
+    <servlet>
+        <servlet-name>ProductoController</servlet-name>
+        <servlet-class>com.otto.controller.ProductoController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ProductoController</servlet-name>
+        <url-pattern>/ProductoController</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UsuarioController</servlet-name>
+        <servlet-class>com.otto.controller.UsuarioController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UsuarioController</servlet-name>
+        <url-pattern>/UsuarioController</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ContactoController</servlet-name>
+        <servlet-class>com.otto.controller.ContactoController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ContactoController</servlet-name>
+        <url-pattern>/ContactoController</url-pattern>
+    </servlet-mapping>
+</web-app>
