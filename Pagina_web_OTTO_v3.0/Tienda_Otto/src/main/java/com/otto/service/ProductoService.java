@@ -1,13 +1,12 @@
 package com.otto.service;
 
-import java.util.List;
-import java.util.Optional;
-
+import com.otto.model.Producto;
+import com.otto.repository.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.otto.model.Producto;
-import com.otto.repository.ProductoRepository;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductoService {
@@ -33,8 +32,8 @@ public class ProductoService {
     }
 
     public Producto obtenerProductoPorId(Long id) {
-        Optional<Producto> producto = productoRepository.findById(id);
-        return producto.orElse(null);
+        Optional<Producto> optionalProducto = productoRepository.findById(id);
+        return optionalProducto.orElse(null);
     }
 
     public boolean actualizarProducto(Long id, String nombre, double precio, String descripcion) {

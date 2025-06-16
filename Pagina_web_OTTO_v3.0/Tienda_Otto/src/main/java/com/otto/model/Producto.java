@@ -1,27 +1,53 @@
-# Query: 
-# ContextLines: 1
-
 package com.otto.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "productos")
 public class Producto {
-    private int id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
     private String nombre;
+
+    @Column(nullable = false)
     private double precio;
+
+    @Column(nullable = false, length = 500)
     private String descripcion;
 
+    // Constructor vacío (requerido por JPA)
     public Producto() {}
 
+    // Constructor sin ID
     public Producto(String nombre, double precio, String descripcion) {
         this.nombre = nombre;
         this.precio = precio;
         this.descripcion = descripcion;
     }
 
-    public int getId() {
+    // Constructor con ID (para actualizar)
+    public Producto(Long id, String nombre, double precio, String descripcion) {
+        this.id = id;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.descripcion = descripcion;
+    }
+
+    // Getters y Setters
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

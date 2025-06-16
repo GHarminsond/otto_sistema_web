@@ -1,29 +1,36 @@
-# Query: 
-# ContextLines: 1
-
 package com.otto.model;
 
-/**
- * Enumeración para los roles de usuario
- */
-enum RolUsuario {
-    CLIENTE, VENDEDOR, ADMINISTRADOR
-}
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-/**
- * Clase modelo para representar un usuario
- */
+@Entity
+@Table(name = "usuarios")
 public class Usuario {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String nombre;
+
+    @Column(unique = true, nullable = false)
     private String correo;
+
     private String contrasena;
+
+    @Enumerated(EnumType.STRING)
     private RolUsuario rol;
 
     // Constructor vacío
     public Usuario() {}
 
-    // Constructor con parámetros
+    // Constructor sin ID
     public Usuario(String nombre, String correo, String contrasena, RolUsuario rol) {
         this.nombre = nombre;
         this.correo = correo;
@@ -91,3 +98,4 @@ public class Usuario {
                 '}';
     }
 }
+

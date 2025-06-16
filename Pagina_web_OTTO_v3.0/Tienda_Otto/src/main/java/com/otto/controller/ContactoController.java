@@ -1,32 +1,29 @@
-# Query: 
-# ContextLines: 1
-
 package com.otto.controller;
 
 import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
+
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/ContactoController")
-public class ContactoController extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String nombre = request.getParameter("nombre");
-        String email = request.getParameter("email");
-        String mensaje = request.getParameter("mensaje");
+@Controller
+public class ContactoController {
 
-        // Aquí puedes agregar la lógica para enviar el mensaje, por ejemplo, a través de correo electrónico
-        // Por ahora, solo imprimimos los datos en la consola
+    @PostMapping("/ContactoController")
+    public void procesarFormularioContacto(
+            @RequestParam("nombre") String nombre,
+            @RequestParam("email") String email,
+            @RequestParam("mensaje") String mensaje,
+            HttpServletResponse response
+    ) throws IOException {
+
         System.out.println("Mensaje de contacto recibido:");
         System.out.println("Nombre: " + nombre);
         System.out.println("Correo Electrónico: " + email);
         System.out.println("Mensaje: " + mensaje);
 
-        // Redirigir al usuario a una página de confirmación
         response.sendRedirect("contacto.html?status=success");
     }
 }
