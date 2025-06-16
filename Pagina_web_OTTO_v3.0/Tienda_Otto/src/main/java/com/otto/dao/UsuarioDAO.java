@@ -1,11 +1,16 @@
 package com.otto.dao;
 
-import com.otto.config.DatabaseConnection;
-import com.otto.model.Usuario;
-import com.otto.model.RolUsuario;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.otto.config.DatabaseConnection;
+import com.otto.model.RolUsuario;
+import com.otto.model.Usuario;
 
 // Clase DAO para realizar operaciones CRUD con la tabla de usuarios
 
@@ -58,31 +63,55 @@ public class UsuarioDAO {
         return usuarios;
     }
 
-    // Consulta un usuario por su correo electrónico
-    // @param correo Correo del usuario a buscar
+    // Consulta un usuario por su ID
+    // @param id ID del usuario a buscar
     // @return Objeto Usuario si lo encuentra, null si no existe
-    public Usuario consultarUsuarioPorCorreo(String correo) {
-        String sql = "SELECT * FROM usuarios WHERE correo = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+public Usuario findById(int id) {
+    String sql = "SELECT * FROM usuarios WHERE id = ?";
+    try (Connection conn = DatabaseConnection.getConnection();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, correo);
-            ResultSet rs = pstmt.executeQuery();
+        pstmt.setInt(1, id);
+        ResultSet rs = pstmt.executeQuery();
 
-            if (rs.next()) {
-                return new Usuario(
-                    rs.getInt("id"),
-                    rs.getString("nombre"),
-                    rs.getString("correo"),
-                    rs.getString("contrasena"),
-                    RolUsuario.valueOf(rs.getString("rol").toUpperCase())
-                );
+        if (rs.next()) {
+            Usuario usuario = new Usuario();
+            usuario.setId(rs.getInt("id"));
+            usuario.setNombre(rs.getString("nombre"));
+            usuario.setCorreo(rs.getString("correo"));
+            usuario.setContrasena(rs.getString("contrasena"));
+            // Agrega más campos según los que tenga tu clase Usuario
+            return usuario;
             }
         } catch (SQLException e) {
-            System.err.println("Error al consultar usuario por correo: " + e.getMessage());
+            System.err.println("Error al consultar usuario por ID: " + e.getMessage());
         }
         return null;
     }
+// Consulta un usuario por su correo
+public Usuario consultarUsuarioPorCorreo(String correo) {
+    String sql = "SELECT * FROM usuarios WHERE correo = ?";
+    try (Connection conn = DatabaseConnection.getConnection();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+        pstmt.setString(1, correo);
+        ResultSet rs = pstmt.executeQuery();
+
+        if (rs.next()) {
+            return new Usuario(
+                rs.getInt("id"),
+                rs.getString("nombre"),
+                rs.getString("correo"),
+                rs.getString("contrasena"),
+                RolUsuario.valueOf(rs.getString("rol").toUpperCase())
+            );
+        }
+    } catch (SQLException e) {
+        System.err.println("Error al consultar usuario por correo: " + e.getMessage());
+    }
+    return null;
+}
+   
 
     // Actualiza los datos de un usuario existente
     // @param usuario Objeto Usuario con los datos actualizados

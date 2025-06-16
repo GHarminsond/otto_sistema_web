@@ -3,11 +3,12 @@
 package com.otto.service;
 
 // Importamos las clases necesarias para la lógica del servicio de usuario
-import com.otto.dao.UsuarioDAO;
-import com.otto.model.Usuario;
-import com.otto.model.RolUsuario;
 import java.util.List;
 import java.util.regex.Pattern;
+
+import com.otto.dao.UsuarioDAO;
+import com.otto.model.RolUsuario;
+import com.otto.model.Usuario;
 
 // Clase de servicio que contiene la lógica de negocio para gestionar usuarios
 public class UsuarioService {
@@ -22,6 +23,10 @@ public class UsuarioService {
     // Constructor que inicializa el DAO
     public UsuarioService() {
         this.usuarioDAO = new UsuarioDAO();
+    }
+
+    public Usuario obtenerUsuarioPorId(int id) {
+    return usuarioDAO.findById(id);
     }
 
     // Método para registrar un nuevo usuario en el sistema

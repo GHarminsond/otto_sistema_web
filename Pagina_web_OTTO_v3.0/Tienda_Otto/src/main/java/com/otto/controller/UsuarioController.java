@@ -1,9 +1,12 @@
 package com.otto.controller;
 
 import com.otto.model.Usuario;
+import com.otto.model.RolUsuario;
 import com.otto.service.UsuarioService;
+
 import java.io.IOException;
 import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -60,13 +63,13 @@ public class UsuarioController extends HttpServlet {
         }
     }
 
-    private void handleListarUsuarios(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void handleListarUsuarios(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Usuario> usuarios = usuarioService.obtenerTodosLosUsuarios();
         request.setAttribute("usuarios", usuarios);
         request.getRequestDispatcher("/listarUsuarios.jsp").forward(request, response);
     }
 
-    private void handleBuscarUsuario(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void handleBuscarUsuario(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         Usuario usuario = usuarioService.obtenerUsuarioPorId(id);
 
