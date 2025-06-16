@@ -1,20 +1,19 @@
-// ==================== ARCHIVO: UsuarioService.java ====================
-
 package com.otto.service;
 
-// Importamos las clases necesarias para la lógica del servicio de usuario
 import java.util.List;
 import java.util.regex.Pattern;
+
+import org.springframework.stereotype.Service;
 
 import com.otto.dao.UsuarioDAO;
 import com.otto.model.RolUsuario;
 import com.otto.model.Usuario;
 
-// Clase de servicio que contiene la lógica de negocio para gestionar usuarios
+@Service
 public class UsuarioService {
 
     // Instancia del DAO para interactuar con la base de datos
-    private UsuarioDAO usuarioDAO;
+    private final UsuarioDAO usuarioDAO;
 
     // Expresión regular para validar formato de correo electrónico
     private static final Pattern EMAIL_PATTERN = 

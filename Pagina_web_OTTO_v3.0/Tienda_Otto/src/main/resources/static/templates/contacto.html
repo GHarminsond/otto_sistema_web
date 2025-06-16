@@ -1,0 +1,56 @@
+# Query: 
+# ContextLines: 1
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Contacto</title>
+    <link rel="stylesheet" href="resources/styles.css">
+</head>
+<body>
+    <header>
+        <h1>OTTO®</h1>
+        <p class="subtitulo">Calzado a tu estilo</p>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="carrito.html">Carrito</a></li>
+                <li><a href="cuenta.html">Cuenta</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Contacto</h2>
+            <p><strong>En OTTO®, estamos aquí para ayudarte. Si tienes alguna pregunta, sugerencia o necesitas asistencia, no dudes en contactarnos.</strong></p>
+            <h3>Información de Contacto</h3>
+            <p><strong>Dirección:</strong> Cr.110a N°103-07, Ciudad Bogotá</p>
+            <p><strong>Teléfono:</strong> +57 322 347 5860</p>
+            <p><strong>Correo Electrónico:</strong> tiendaOTTO01@gmail.com</p>
+            <p><strong>Horario de Atención:</strong> Lunes a Viernes, 9:00 AM - 6:00 PM</p>
+
+            <h3>Formulario de Contacto</h3>
+            <form action="ContactoController" method="post">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" required>
+                <label for="email">Correo Electrónico:</label>
+                <input type="email" id="email" name="email" required>
+                <label for="mensaje">Mensaje:</label>
+                <textarea id="mensaje" name="mensaje" required></textarea>
+                <button type="submit">Enviar</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 OTTO® - Todos los derechos reservados.</p>
+        <p><strong>Dirección:</strong> Cr.110a N°103-07, Ciudad Bogotá</p>
+        <p><strong>Teléfono:</strong> +57 322 347 5860</p>
+        <p><strong>Correo electrónico:</strong> tiendaOTTO01@gmail.com</p>
+    </footer>
+</body>
+</html>

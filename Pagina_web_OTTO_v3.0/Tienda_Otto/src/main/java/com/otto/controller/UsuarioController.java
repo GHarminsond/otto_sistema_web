@@ -1,109 +1,81 @@
 package com.otto.controller;
 
-import com.otto.model.Usuario;
-import com.otto.model.RolUsuario;
-import com.otto.service.UsuarioService;
-
-import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@WebServlet("/UsuarioController")
-public class UsuarioController extends HttpServlet {
-    private static final long serialVersionUID = 1L;
-    private UsuarioService usuarioService = new UsuarioService();
+import com.otto.model.RolUsuario;
+import com.otto.model.Usuario;
+import com.otto.service.UsuarioService;
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getParameter("action");
+@RestController
+@RequestMapping("/api/usuarios")
+public class UsuarioController {
 
-        if ("login".equals(action)) {
-            handleLogin(request, response);
-        } else if ("register".equals(action)) {
-            handleRegister(request, response);
-        } else if ("listar".equals(action)) {
-            handleListarUsuarios(request, response);
-        } else if ("buscar".equals(action)) {
-            handleBuscarUsuario(request, response);
-        } else if ("actualizar".equals(action)) {
-            handleActualizarUsuario(request, response);
-        } else if ("eliminar".equals(action)) {
-            handleEliminarUsuario(request, response);
-        }
-    }
+    @Autowired
+    private UsuarioService usuarioService;
 
-    private void handleLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-
-        Usuario usuario = usuarioService.autenticarUsuario(email, password);
-
-        if (usuario != null) {
-            response.getWriter().println("Inicio de sesión exitoso");
+    @PostMapping("/login")
+    public String login(@RequestBody Usuario usuario) {
+        Usuario autenticado = usuarioService.autenticarUsuario(usuario.getCorreo(), usuario.getContrasena());
+        if (autenticado != null) {
+            return "Inicio de sesión exitoso";
         } else {
-            response.getWriter().println("Credenciales incorrectas");
+            return "Credenciales incorrectas";
         }
     }
 
-    private void handleRegister(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String nombre = request.getParameter("nombre");
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-
-        boolean resultado = usuarioService.registrarUsuario(nombre, email, password, RolUsuario.CLIENTE);
+    @PostMapping("/register")
+    public String register(@RequestBody Usuario usuario) {
+        boolean resultado = usuarioService.registrarUsuario(
+            usuario.getNombre(),
+            usuario.getCorreo(),
+            usuario.getContrasena(),
+            RolUsuario.CLIENTE
+        );
 
         if (resultado) {
-            response.getWriter().println("Registro exitoso");
+            return "Registro exitoso";
         } else {
-            response.getWriter().println("Error al registrar");
+            return "Error al registrar";
         }
     }
 
-    private void handleListarUsuarios(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Usuario> usuarios = usuarioService.obtenerTodosLosUsuarios();
-        request.setAttribute("usuarios", usuarios);
-        request.getRequestDispatcher("/listarUsuarios.jsp").forward(request, response);
+    @GetMapping("/listar")
+    public List<Usuario> listarUsuarios() {
+        return usuarioService.obtenerTodosLosUsuarios();
     }
 
-    private void handleBuscarUsuario(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        Usuario usuario = usuarioService.obtenerUsuarioPorId(id);
-
-        if (usuario != null) {
-            request.setAttribute("usuario", usuario);
-            request.getRequestDispatcher("/usuario.jsp").forward(request, response);
-        } else {
-            response.getWriter().println("Usuario no encontrado");
-        }
+    @GetMapping("/{id}")
+    public Usuario buscarUsuario(@PathVariable int id) {
+        return usuarioService.obtenerUsuarioPorId(id);
     }
 
-    private void handleActualizarUsuario(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        String nombre = request.getParameter("nombre");
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
+    @PutMapping("/{id}")
+    public String actualizarUsuario(@PathVariable int id, @RequestBody Usuario usuario) {
+        boolean resultado = usuarioService.actualizarUsuario(
+            id,
+            usuario.getNombre(),
+            usuario.getCorreo(),
+            usuario.getContrasena(),
+            RolUsuario.CLIENTE
+        );
 
-        boolean resultado = usuarioService.actualizarUsuario(id, nombre, email, password, RolUsuario.CLIENTE);
-
-        if (resultado) {
-            response.getWriter().println("Usuario actualizado exitosamente");
-        } else {
-            response.getWriter().println("Error al actualizar el usuario");
-        }
+        return resultado ? "Usuario actualizado exitosamente" : "Error al actualizar el usuario";
     }
 
-    private void handleEliminarUsuario(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
+    @DeleteMapping("/{id}")
+    public String eliminarUsuario(@PathVariable int id) {
         boolean resultado = usuarioService.eliminarUsuario(id);
-
-        if (resultado) {
-            response.getWriter().println("Usuario eliminado exitosamente");
-        } else {
-            response.getWriter().println("Error al eliminar el usuario");
-        }
+        return resultado ? "Usuario eliminado exitosamente" : "Error al eliminar el usuario";
     }
 }
+
