@@ -1,12 +1,13 @@
 package com.otto.service;
 
-import com.otto.model.Producto;
-import com.otto.repository.ProductoRepository;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import com.otto.model.Producto;
+import com.otto.repository.ProductoRepository;
 
 @Service
 public class ProductoService {
@@ -18,13 +19,12 @@ public class ProductoService {
         this.productoRepository = productoRepository;
     }
 
-    public boolean crearProducto(String nombre, double precio, String descripcion) {
+    public Producto crearProducto(String nombre, double precio, String descripcion) {
         if (validarDatosProducto(nombre, precio, descripcion)) {
             Producto producto = new Producto(nombre, precio, descripcion);
-            productoRepository.save(producto);
-            return true;
+            return productoRepository.save(producto); // ← retorna el objeto Producto
         }
-        return false;
+        return null; // ← para indicar que hubo error en validación
     }
 
     public List<Producto> obtenerTodosLosProductos() {
@@ -36,13 +36,12 @@ public class ProductoService {
         return optionalProducto.orElse(null);
     }
 
-    public boolean actualizarProducto(Long id, String nombre, double precio, String descripcion) {
+    public Producto actualizarProducto(Long id, String nombre, double precio, String descripcion) {
         if (productoRepository.existsById(id) && validarDatosProducto(nombre, precio, descripcion)) {
             Producto producto = new Producto(id, nombre, precio, descripcion);
-            productoRepository.save(producto);
-            return true;
+            return productoRepository.save(producto); // ← retorna el objeto actualizado
         }
-        return false;
+        return null;
     }
 
     public boolean eliminarProducto(Long id) {

@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "productos")
+@Table(name = "producto")
 public class Producto {
 
     @Id
@@ -24,17 +24,14 @@ public class Producto {
     @Column(nullable = false, length = 500)
     private String descripcion;
 
-    // Constructor vacío (requerido por JPA)
     public Producto() {}
 
-    // Constructor sin ID
     public Producto(String nombre, double precio, String descripcion) {
         this.nombre = nombre;
         this.precio = precio;
         this.descripcion = descripcion;
     }
 
-    // Constructor con ID (para actualizar)
     public Producto(Long id, String nombre, double precio, String descripcion) {
         this.id = id;
         this.nombre = nombre;
@@ -42,38 +39,29 @@ public class Producto {
         this.descripcion = descripcion;
     }
 
-    // Getters y Setters
-    public Long getId() {
-        return id;
+    // Validaciones manuales simples
+    public boolean esValido() {
+        return nombre != null && !nombre.trim().isEmpty()
+                && descripcion != null && !descripcion.trim().isEmpty()
+                && precio > 0;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    // Getters y setters
+    public Long getId() { return id; }
 
-    public String getNombre() {
-        return nombre;
-    }
+    public void setId(Long id) { this.id = id; }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+    public String getNombre() { return nombre; }
 
-    public double getPrecio() {
-        return precio;
-    }
+    public void setNombre(String nombre) { this.nombre = nombre; }
 
-    public void setPrecio(double precio) {
-        this.precio = precio;
-    }
+    public double getPrecio() { return precio; }
 
-    public String getDescripcion() {
-        return descripcion;
-    }
+    public void setPrecio(double precio) { this.precio = precio; }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
+    public String getDescripcion() { return descripcion; }
+
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
 
     @Override
     public String toString() {
@@ -85,3 +73,4 @@ public class Producto {
                 '}';
     }
 }
+
