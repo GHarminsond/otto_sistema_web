@@ -1,8 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.otto.dao.ProductoDAOTest
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.355 s <<< FAILURE! - in com.otto.dao.ProductoDAOTest
-testListarProductos  Time elapsed: 0.345 s  <<< ERROR!
-java.lang.NullPointerException: Cannot invoke "java.sql.Connection.createStatement()" because "conn" is null
-	at com.otto.dao.ProductoDAOTest.testListarProductos(ProductoDAOTest.java:14)
-
